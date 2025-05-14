@@ -1,4 +1,4 @@
-name: slide
+name: slide_env
 channels:
   - pytorch3d
   - pytorch
