@@ -14,7 +14,7 @@
     },
     "autoencoder_config": {
         "config_file": "configs/shapenet_psr_configs/autoencoder_configs/config_autoencoder_s3_kl_1e-5_16_keypoints_latent_dim_16_32_normal_weight_0_0_0.1_with_augm_kp_noise_0.04_chair.json",
-        "ckpt": "exps/mesh_overall_ckpts_and_generation_results/autoencoder_models/add_centroid_as_first_keypoint/chair/pointnet_ckpt_712319.pkl"
+        "ckpt": "/home/isipiran/SLIDE_necs/pointnet2/exps/exp_shapenet_psr_generation/autoencoder_exps/16_keypoints/shapenet_psr_autoencode_batchsize_32_kl_1e-5_16_kps_noise_0.04_latent_dim_16_32_normal_weight_0_0_0.1_with_augm_chair/checkpoint/pointnet_ckpt_949199.pkl"
     },
     "pointnet_config": {
         "model_name": "shapenet_psr_latent_ddpm_ae_kp_noise_0.04_keypoint_conditional_latent_dim_16_32_chair_ae_trained_on_chair",

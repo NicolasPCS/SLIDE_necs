@@ -363,6 +363,7 @@ if __name__ == "__main__":
     num_gpus = torch.cuda.device_count()
     print('%d GPUs are available' % num_gpus, flush=True)
     if num_gpus > 1:
+        print(args.group_name)
         assert args.group_name != ''
     else:
         assert args.rank == 0

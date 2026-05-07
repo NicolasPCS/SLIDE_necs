@@ -1,26 +1,9 @@
 {
-    "standard_diffusion_config": {
-        "beta_schedule": "linear",
-        "num_diffusion_timesteps": 1000,
-        "beta_start": 0.0001,
-        "beta_end": 0.02,
-        "data_clamp_range": -1,
-        "model_var_type": "fixedsmall",
-        "model_output_scale_factor": 1.0,
-        "loss_type": null,
-        "keypoint_position_loss_weight": 0.0,
-        "feature_loss_weight": 1.0,
-        "keypoint_conditional": true
-    },
-    "autoencoder_config": {
-        "config_file": "configs/shapenet_psr_configs/autoencoder_configs/config_autoencoder_s3_kl_1e-5_16_kp_latent_dim_16_32_normal_weight_0.1_with_augm_kp_noise_0.04_not_add_centroid_as_first_kp_car.json",
-        "ckpt": ""
-    },
     "pointnet_config": {
-        "model_name": "shapenet_psr_latent_ddpm_kp_noise_0.04_keypoint_conditional_car_not_add_centroid_as_first_keypoint",
-        "in_fea_dim": 48,
-        "out_dim": 51,
-        "include_t": true,
+        "model_name": "shapenet_dpsr_upsample_10_noise_0_symmetry",
+        "in_fea_dim": 4,
+        "out_dim": 6,
+        "include_t": false,
         "t_dim": 128,
         "model.use_xyz": true,
         "attach_position_to_input_feature": true,
@@ -30,6 +13,11 @@
         "bn_first": false,
         "bias": true,
         "res_connect": true,
+
+        "point_upsample_factor": 5,
+        "first_refine_coarse_points": false,
+        "include_displacement_center_to_final_output": false,
+        "output_scale_factor": 0.001,
 
         "include_class_condition": true,
         "num_class": 13,
@@ -50,13 +38,13 @@
             "add_attention_to_FeatureMapper_module": true
         },
         "architecture": {
-            "npoint": "[16, 16]",
-            "radius": "[0, 0]",
+            "npoint": "[1024, 256, 64, 16]",
+            "radius": "[0.1, 0.2, 0.4, 0.8]",
             "neighbor_definition": "nn",
-            "nsample": "[16, 16]",
-            "feature_dim": "[128, 256, 512]",
+            "nsample": "[32, 32, 32, 32]",
+            "feature_dim": "[32, 64, 128, 256, 512]",
             "mlp_depth": 3,
-            "decoder_feature_dim": "[128, 256, 512]",
+            "decoder_feature_dim": "[128, 128, 256, 256, 512]",
             "include_grouper": false,
             "decoder_mlp_depth": 2,
             "use_knn_FP": true,
@@ -66,13 +54,13 @@
         "feature_mapper_architecture": null
     },
     "train_config": {
-        "task": "latent_keypoint_conditional_generation",
+        "task": "upsample",
         "dataset": "shapenet_psr_dataset",
-        "root_directory": "exps/exp_shapenet_psr_generation/latent_ddpm_exps/16_keypoints",
+        "root_directory": "exps/exp_shapenet_psr_generation/refine_and_upsampling_exps",
         "output_directory": "checkpoint",
         "tensorboard_directory": "tensorboard",
         "ckpt_iter": "max",
-        "epochs_per_ckpt": 50,
+        "epochs_per_ckpt": 10,
         "iters_per_logging": 50,
         "n_epochs": 1000,
         "eval_start_epoch": 0,
@@ -80,25 +68,28 @@
         "learning_rate": 0.0002,
         "loss_type": "mse",
         "conditioned_on_cloud": false,
-        "split_dataset_to_multi_gpus": true,
-        "ema_rate": "[0.999, 0.9999]"
+        "split_dataset_to_multi_gpus": true
+    },
+    "dpsr_config":{
+        "grid_res": 128,
+        "psr_sigma": 2,
+        "psr_tanh": true,
+        "mirror_before_upsampling": true,
+        "only_original_points_split": false
     },
     "shapenet_psr_dataset_config": {
         "dataset": "shapenet_psr_dataset",
-        "data_dir": "data/shapenet_psr",
-        "categories": "['02958343']",
-        "repeat_dataset": 10,
+        "data_dir": "data/data_h_npz",
+        "categories": null,
         "npoints": 2048,
         "scale": 1,
         "batch_size": 32,
-        "eval_batch_size": 64,
-        "num_workers": 64,
-        "num_samples_tested": 128,
-        "num_keypoints": 16,
-        "keypoints_source": "farthest_points_sampling",
-        "add_centroid_to_keypoints": false,
-        "test_external_keypoint": false,
-        "external_keypoint_file": null
+        "eval_batch_size": 32,
+        "num_workers": 16,
+        "load_psr": true,
+        "augmentation": {"noise_magnitude": 0},
+        "num_vis_samples": 32,
+        "external_vis_dataset": null
     },
     "dist_config": {
         "dist_backend": "nccl",

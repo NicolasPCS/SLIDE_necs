@@ -116,6 +116,7 @@ if __name__ == '__main__':
     # pdb.set_trace()
 
     save_dir = args.save_dir
+    os.makedirs(save_dir, exist_ok=True)
     # file_name = os.path.split(args.ckpt)[1]
     # file_name = os.path.splitext(file_name)[0]
     # model_name = args.ckpt.split('/')[-3]

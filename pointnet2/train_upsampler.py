@@ -216,10 +216,12 @@ def train(num_gpus, config_file, rank, group_name, dataset, root_directory, outp
             normals = normals / torch.norm(normals, p=2, dim=2, keepdim=True)
             label = data['label'].cuda()
             psr_gt = data['psr'].cuda()
-            if trainset_config.get('include_normals', True):
-                X = torch.cat([X, normals], dim=2) # X already contains noises if noise_manigtude > 0
-            else:
-                X = torch.cat([X, torch.zeros_like(X)], dim=2)
+            ### Cambio hecho para que no considere las normales.
+            #if trainset_config.get('include_normals', True):
+            #    X = torch.cat([X, normals], dim=2) # X already contains noises if noise_manigtude > 0
+            #else:
+            ###
+            X = torch.cat([X, torch.zeros_like(X)], dim=2)
                 # in this case, we assume the input point cloud do not have normals, the refinement network need to estimate normals
             condition = None
 

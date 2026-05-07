@@ -18,4 +18,8 @@ pointnet2.egg-info/
 **/*.pyc
 pointnet2/data/
 pointnet2/exps/
+pointnet2/exps_over_half/
+pointnet2/exps_architecture_assesing_only_gen/
+pointnet2/exps_old/
 pytorch3d/
+pointnet2_ops_lib/pointnet2_ops.egg-info/PKG-INFO
